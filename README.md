@@ -21,10 +21,24 @@ yarn add midtrans-snap
 ## Usage
 
 ```ts
-import { MidtransSnap } from 'midtrans-snap'
+import { initSnap, useSnap } from 'midtrans-snap'
 
-const snap   = new MidtransSnap('YOUR_CLIENT_KEY', 'production')
+// You need run this once
+initSnap('YOUR_CLIENT_KEY', 'sandbox') /* or change to 'production' */
+
+// Later, you can call useSnap() anywhere
+const snap   = useSnap()
 const result = await snap.pay('SNAP_PAY_TOKEN')
+```
+
+## Nuxt 3
+
+Using this in Nuxt 3 is quite simple, just create the plugin `plugin/snap.client.ts`.
+
+```ts
+export default defineNuxtPlugin(() => {
+  initSnap('YOUR_CLIENT_KEY', 'sandbox')
+})
 ```
 
 ## Contribution

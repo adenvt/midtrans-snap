@@ -1,6 +1,6 @@
 declare global {
   interface Window {
-    snap?: Snap
+    snap?: Snap,
   }
 }
 
@@ -34,7 +34,7 @@ type PaymenType =
   | 'danamon_online'
 
 interface SnapOptions {
-  onSuccess?: (result: SnapResult) => void
+  onSuccess?: (result: SnapResult) => void,
   onPending?: (result: SnapResult) => void,
   onError?: (error: SnapResult) => void,
   onClose?: (error: SnapResult) => void,
@@ -42,14 +42,14 @@ interface SnapOptions {
   language?: 'en' | 'id',
   autoCloseDelay?: number,
   selectedPaymentType?: PaymenType,
-  uiMode?: 'deeplink' | 'qr' | 'auto'
+  uiMode?: 'deeplink' | 'qr' | 'auto',
 }
 
 type UseSnapOptions = Omit<SnapOptions, 'onSuccess' | 'onPending' | 'onError' | 'onClose'>
 
 type SnapEnv = 'production' | 'sandbox'
 
-const SNAP_LOCATION: Record<SnapEnv, string> = {
+export const SNAP_LOCATION: Record<SnapEnv, string> = {
   production: 'https://app.midtrans.com/snap/snap.js',
   sandbox   : 'https://app.sandbox.midtrans.com/snap/snap.js',
 }
@@ -69,6 +69,7 @@ export class SnapError extends Error {
 export class MidtransSnap {
   #clientKey: string
   #env: SnapEnv
+  #scriptEl?: HTMLScriptElement
 
   /**
    *
@@ -80,12 +81,11 @@ export class MidtransSnap {
     this.#env       = env
   }
 
-  #loadScript(): Promise<Snap> {
-    if (window.snap !== undefined) {
-      return Promise.resolve(window.snap)
-    }
+  async #loadScript (): Promise<Snap> {
+    if (window.snap !== undefined)
+      return window.snap
 
-    return new Promise((resolve, reject) => {
+    return await new Promise((resolve, reject) => {
       const script = document.createElement('script')
 
       const onLoad = () => {
@@ -114,16 +114,18 @@ export class MidtransSnap {
       script.type              = 'text/javascript'
 
       document.body.append(script)
+
+      this.#scriptEl = script
     })
   }
 
   async pay (tokenOrUrl: string, options: UseSnapOptions = {}) {
-    const regex = /\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/gm  // Extract token from url
+    const regex = /\b[\da-f]{8}\b(?:-[\da-f]{4}){3}-\b[\da-f]{12}\b/gm // Extract token from url
     const match = regex.exec(tokenOrUrl)
     const token = match ? match[0] : tokenOrUrl
     const snap  = await this.#loadScript()
 
-    return new Promise((resolve, reject) => {
+    return await new Promise((resolve, reject) => {
       snap.pay(token, {
         ...options,
         onSuccess (result) {
@@ -148,14 +150,39 @@ export class MidtransSnap {
   }
 
   async show () {
+    // eslint-disable-next-line unicorn/no-await-expression-member
     (await this.#loadScript()).show()
   }
 
   async hide () {
+    // eslint-disable-next-line unicorn/no-await-expression-member
     (await this.#loadScript()).hide()
   }
 
   isCancel (error: Error) {
     return (error instanceof SnapError) && error.isClosed
   }
+
+  destroy () {
+    if (this.#scriptEl)
+      this.#scriptEl.remove()
+  }
+}
+
+let instance: MidtransSnap
+
+export function initSnap (clientKey: string, env: SnapEnv = 'sandbox') {
+  if (instance)
+    instance.destroy()
+
+  instance = new MidtransSnap(clientKey, env)
+
+  return instance
+}
+
+export function useSnap () {
+  if (!instance)
+    throw new Error('Snap has not initilized before, please call "initSnap()" first')
+
+  return instance
 }
