@@ -393,9 +393,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@privyid/eslint-config-persona@npm:^0.12.0":
-  version: 0.12.0
-  resolution: "@privyid/eslint-config-persona@npm:0.12.0"
+"@privyid/eslint-config-persona@npm:^0.13.0":
+  version: 0.13.0
+  resolution: "@privyid/eslint-config-persona@npm:0.13.0"
   peerDependencies:
     "@typescript-eslint/eslint-plugin": ">=5.47.0"
     "@typescript-eslint/parser": ">=5.47.0"
@@ -411,7 +411,7 @@ __metadata:
     eslint-plugin-unicorn: ">=45.0.2"
     eslint-plugin-varspacing: ">=1.2.2"
     eslint-plugin-vue: ">=9.8.0"
-  checksum: dabb8e1859a4a15dc666ad9d1d365313ae5767bb51055d7e69d6aa1408fcf81157da162952f387b432f7f3ba12a3119c10e959d2cce147de30749278fdaf631e
+  checksum: 08bfc5b106e51cd40de2ce4fb554a94540a8c2a32f8021af6f2119d381e961659cbe648091fc99381554463eb0b30727719bb8737df689a6c233af8618fafa86
   languageName: node
   linkType: hard
 
@@ -3015,7 +3015,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "midtrans-snap@workspace:."
   dependencies:
-    "@privyid/eslint-config-persona": ^0.12.0
+    "@privyid/eslint-config-persona": ^0.13.0
     "@types/node": ^20.1.0
     "@typescript-eslint/eslint-plugin": ^5.59.2
     "@typescript-eslint/parser": ^5.59.2
