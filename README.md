@@ -1,12 +1,12 @@
 # midtrans-snap
 
-> (Un)official Midtrans Snap Client wrapper
+> (Un)official Midtrans Snap Client (SnapJS)
 
 ## Features
 
-- Bundler friendly
-- Strongly typed
-- Promisify callback
+- Bundler friendly, support ESM and CJS
+- Strongly typed, written with Typescript
+- Promisify callback, easy to use with *async-await*
 
 ## Installation
 
@@ -39,6 +39,32 @@ Using this in Nuxt 3 is quite simple, just create the plugin `plugins/snap.clien
 export default defineNuxtPlugin(() => {
   initSnap('YOUR_CLIENT_KEY', 'sandbox')
 })
+```
+
+## Promisify callback
+
+On original one, SnapJS has 4 callbacks: `onSuccess`, `onPending`, `onError`, `onClose`.
+This library united this into single Promise, so you can *await* it.
+
+- `onSuccess` and `onPending` will resolve the Promise
+- `onClose` and `onError` will reject the Promise
+
+```ts
+import { useSnap, isCancel } from 'midtrans-snap'
+
+try {
+  const snap   = useSnap()
+  const result = await snap.pay('SNAP_PAY_TOKEN')
+
+  if (result.transaction_status !== 'pending')
+    console.log('Paymen Sucess')
+} catch (error) {
+  if (isCancel(error)) {
+    console.log('Customer closed the popup without finishing the payment')
+  } else {
+    console.log('Payment error')
+  }
+}
 ```
 
 ## Contribution
