@@ -12,6 +12,33 @@ interface Snap {
 
 interface SnapResult {
   status_code: string,
+  status_message: string,
+  order_id: string,
+  gross_amount: string,
+  payment_type: PaymenType,
+  transaction_id: string,
+  transaction_time: string,
+  transaction_status: 'capture' | 'settlement' | 'pending' | 'cancel' | 'expired',
+  fraud_status: 'accept' | 'challenge' | 'deny',
+  approval_code: string,
+  masked_card: string,
+  bank: string,
+  permata_va_number: string,
+  bca_va_number: string,
+  bill_key: string,
+  biller_code: string,
+  saved_token_id: string,
+  saved_token_id_expired_at: string,
+  card_type: 'credit' | 'debit',
+  pdf_url: string,
+  va_numbers: Array<{
+    bank: string,
+    va_number: string,
+  }>,
+}
+
+interface SnapErrorResult {
+  status_code: string,
   status_message: string[],
 }
 
@@ -36,8 +63,8 @@ type PaymenType =
 interface SnapOptions {
   onSuccess?: (result: SnapResult) => void,
   onPending?: (result: SnapResult) => void,
-  onError?: (error: SnapResult) => void,
-  onClose?: (error: SnapResult) => void,
+  onError?: (error: SnapErrorResult) => void,
+  onClose?: (error: SnapErrorResult) => void,
   enabledPayments?: PaymenType[],
   language?: 'en' | 'id',
   autoCloseDelay?: number,
@@ -55,10 +82,10 @@ export const SNAP_LOCATION: Record<SnapEnv, string> = {
 }
 
 export class SnapError extends Error {
-  result?: SnapResult
+  result?: SnapErrorResult
   isClosed?: boolean
 
-  constructor (message: string, isClosed: boolean = false, result?: SnapResult) {
+  constructor (message: string, isClosed: boolean = false, result?: SnapErrorResult) {
     super(message)
 
     this.result   = result
@@ -159,10 +186,6 @@ export class MidtransSnap {
     (await this.#loadScript()).hide()
   }
 
-  isCancel (error: Error) {
-    return (error instanceof SnapError) && error.isClosed
-  }
-
   destroy () {
     if (this.#scriptEl)
       this.#scriptEl.remove()
@@ -172,6 +195,9 @@ export class MidtransSnap {
 let instance: MidtransSnap
 
 export function initSnap (clientKey: string, env: SnapEnv = 'sandbox') {
+  if (!clientKey)
+    throw new Error('clientKey is required')
+
   if (instance)
     instance.destroy()
 
@@ -185,4 +211,12 @@ export function useSnap () {
     throw new Error('Snap has not initilized before, please call "initSnap()" first')
 
   return instance
+}
+
+export function isSnapError (error: unknown): error is SnapError {
+  return (error instanceof SnapError)
+}
+
+export function isCancel (error: Error): error is SnapError {
+  return isSnapError(error) && Boolean(error.isClosed)
 }
