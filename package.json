@@ -3,16 +3,16 @@
   "description": "(Un)official Midtrans Snap Client wrapper",
   "packageManager": "yarn@3.5.1",
   "license": "MIT",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "type": "module",
   "main": "./dist/midtrans-snap.umd.cjs",
   "module": "./dist/midtrans-snap.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/midtrans-snap.d.ts",
   "exports": {
     ".": {
       "require": "./dist/midtrans-snap.umd.cjs",
       "import": "./dist/midtrans-snap.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/midtrans-snap.d.ts"
     }
   },
   "scripts": {
@@ -20,7 +20,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "postinstall": "husky install",
-    "prepack": "pinst --disable",
+    "prepack": "pinst --disable && yarn build",
     "postpack": "pinst --enable"
   },
   "files": [
@@ -59,5 +59,10 @@
     "midtrans",
     "snap",
     "client"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adenvt/midtrans-snap.git"
+  },
+  "homepage": "https://github.com/adenvt/midtrans-snap#readme"
 }

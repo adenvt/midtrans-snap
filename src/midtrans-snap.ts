@@ -162,7 +162,7 @@ export class MidtransSnap {
           resolve(result)
         },
         onError (result) {
-          const message = result.status_message[0] || 'Payment Error'
+          const message = result.status_message.join(', ') || 'Payment Error'
           const error   = new SnapError(message, false, result)
 
           reject(error)
