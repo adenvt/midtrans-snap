@@ -2,6 +2,9 @@
 
 > (Un)official Midtrans Snap Client (SnapJS)
 
+![npm](https://img.shields.io/npm/v/midtrans-snap?style=for-the-badge)
+![npm](https://img.shields.io/npm/dm/midtrans-snap?style=for-the-badge)
+
 ## Features
 
 - Bundler friendly, support ESM and CJS
@@ -57,7 +60,7 @@ try {
   const result = await snap.pay('SNAP_PAY_TOKEN')
 
   if (result.transaction_status !== 'pending')
-    console.log('Paymen Sucess')
+    console.log('Payment Sucess')
 } catch (error) {
   if (isCancel(error)) {
     console.log('Customer closed the popup without finishing the payment')
