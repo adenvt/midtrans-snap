@@ -10,7 +10,7 @@ interface Snap {
   hide: () => void,
 }
 
-interface SnapResult {
+export interface SnapResult {
   status_code: string,
   status_message: string,
   order_id: string,
@@ -37,7 +37,7 @@ interface SnapResult {
   }>,
 }
 
-interface SnapErrorResult {
+export interface SnapErrorResult {
   status_code: string,
   status_message: string[],
 }
@@ -72,9 +72,9 @@ interface SnapOptions {
   uiMode?: 'deeplink' | 'qr' | 'auto',
 }
 
-type UseSnapOptions = Omit<SnapOptions, 'onSuccess' | 'onPending' | 'onError' | 'onClose'>
+export type UseSnapOptions = Omit<SnapOptions, 'onSuccess' | 'onPending' | 'onError' | 'onClose'>
 
-type SnapEnv = 'production' | 'sandbox'
+export type SnapEnv = 'production' | 'sandbox' | (string & Record<never, never>)
 
 export const SNAP_LOCATION: Record<SnapEnv, string> = {
   production: 'https://app.midtrans.com/snap/snap.js',
@@ -146,7 +146,7 @@ export class MidtransSnap {
     })
   }
 
-  async pay (tokenOrUrl: string, options: UseSnapOptions = {}) {
+  async pay (tokenOrUrl: string, options: UseSnapOptions = {}): Promise<SnapResult> {
     const regex = /\b[\da-f]{8}\b(?:-[\da-f]{4}){3}-\b[\da-f]{12}\b/gm // Extract token from url
     const match = regex.exec(tokenOrUrl)
     const token = match ? match[0] : tokenOrUrl
