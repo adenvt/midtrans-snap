@@ -394,8 +394,8 @@ __metadata:
   linkType: hard
 
 "@privyid/eslint-config-persona@npm:^0.25.0":
-  version: 0.25.0
-  resolution: "@privyid/eslint-config-persona@npm:0.25.0"
+  version: 0.25.2
+  resolution: "@privyid/eslint-config-persona@npm:0.25.2"
   peerDependencies:
     "@typescript-eslint/eslint-plugin": ">=5.47.0"
     "@typescript-eslint/parser": ">=5.47.0"
@@ -411,7 +411,7 @@ __metadata:
     eslint-plugin-unicorn: ">=45.0.2"
     eslint-plugin-varspacing: ">=1.2.2"
     eslint-plugin-vue: ">=9.8.0"
-  checksum: 12444ddfb3ac97dfa48c7b2e2b169fd1910ec249dbadd9362e5c062101681dd7ae5f93c7f0a03d0c3244984befc1780da338b4357a77a5f981512ab4548902e3
+  checksum: 470505c4eaaece93024eb6777df6b8885456fc84c3aa0792d574dc1bad6b7878100a11ac105af14c1c84abb8da5a8973592ec6c5f86ec661c88eb6acc6752982
   languageName: node
   linkType: hard
 
