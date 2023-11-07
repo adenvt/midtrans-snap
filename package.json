@@ -3,7 +3,7 @@
   "description": "(Un)official Midtrans Snap Client wrapper",
   "packageManager": "yarn@3.6.3",
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "main": "./dist/midtrans-snap.umd.cjs",
   "module": "./dist/midtrans-snap.js",
