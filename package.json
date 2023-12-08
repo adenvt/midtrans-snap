@@ -27,7 +27,7 @@
     "dist"
   ],
   "devDependencies": {
-    "@privyid/eslint-config-persona": "^0.25.0",
+    "@privyid/eslint-config-persona": "^0.27.0",
     "@types/node": "^20.1.0",
     "@typescript-eslint/eslint-plugin": "^5.59.2",
     "@typescript-eslint/parser": "^5.59.2",
