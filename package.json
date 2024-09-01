@@ -1,7 +1,7 @@
 {
   "name": "midtrans-snap",
   "description": "(Un)official Midtrans Snap Client wrapper",
-  "packageManager": "yarn@3.8.3",
+  "packageManager": "yarn@3.8.5",
   "license": "MIT",
   "version": "1.0.1",
   "type": "module",
