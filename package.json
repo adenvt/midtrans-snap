@@ -34,7 +34,7 @@
     "@vue/eslint-config-typescript": "^11.0.3",
     "eslint": "^8.40.0",
     "eslint-config-standard-with-typescript": "^34.0.1",
-    "eslint-formatter-pretty": "^5.0.0",
+    "eslint-formatter-pretty": "^6.0.0",
     "eslint-plugin-align-assignments": "^1.1.2",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-n": "^15.7.0",
